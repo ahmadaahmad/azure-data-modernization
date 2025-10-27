@@ -1,0 +1,114 @@
+{
+	"name": "dataflow_addColumn",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sourceCsv"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinktechcsv"
+				},
+				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinkotherscsv"
+				}
+			],
+			"transformations": [
+				{
+					"name": "splittechcategory"
+				},
+				{
+					"name": "AdditionalColumns",
+					"description": "Unitprice, Cost"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     srcFileName as string",
+				"}",
+				"source(output(",
+				"          {Row ID} as short,",
+				"          {Order ID} as string,",
+				"          {Order Date} as date,",
+				"          {Ship Date} as date,",
+				"          {Ship Mode} as string,",
+				"          {Customer ID} as string,",
+				"          {Customer Name} as string,",
+				"          Segment as string,",
+				"          Country as string,",
+				"          City as string,",
+				"          State as string,",
+				"          {Postal Code} as integer,",
+				"          Region as string,",
+				"          {Product ID} as string,",
+				"          Category as string,",
+				"          {Sub-Category} as string,",
+				"          {Product Name} as string,",
+				"          Sales as float '###.##',",
+				"          Quantity as integer,",
+				"          Discount as double,",
+				"          Profit as double",
+				"     ),",
+				"     useSchema: false,",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     container: 'salesdatacontainer',",
+				"     fileName: 'Sample - Superstore.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     multiLineRow: true,",
+				"     partitionBy('hash', 1)) ~> sourceCsv",
+				"AdditionalColumns split(Category=='Technology',",
+				"     disjoint: false,",
+				"     partitionBy('hash', 1)) ~> splittechcategory@(tech, others)",
+				"sourceCsv derive(Cost = Sales-Profit,",
+				"          UnitPrice = Sales/Quantity,",
+				"          {Product Name} = replace({Product Name}, '\"', '\"\"'),",
+				"     partitionBy('hash', 1)) ~> AdditionalColumns",
+				"splittechcategory@tech sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     container: 'salesdatacontainer',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:[(replace($srcFileName, '.csv', '_Technology.csv'))],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinktechcsv",
+				"splittechcategory@others sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'delimited',",
+				"     container: 'salesdatacontainer',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: true,",
+				"     partitionFileNames:[(replace($srcFileName, '.csv', '_Others.csv'))],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkotherscsv"
+			]
+		}
+	}
+}

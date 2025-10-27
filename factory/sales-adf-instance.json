@@ -1,0 +1,9 @@
+{
+	"name": "sales-adf-instance",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e066886f-1c23-4421-b57b-8f3f2d31ac76",
+		"tenantId": "39f02255-5266-40e2-839f-f16d96f095d3"
+	}
+}

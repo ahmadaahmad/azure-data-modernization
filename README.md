@@ -49,3 +49,42 @@
 
 ---
 
+# Installation
+
+Follow these steps to set up the Azure environment and deploy the ADF project.
+
+```bash
+# 1. Create a Resource Group
+az group create \
+  --name MyNewResourceGroup \
+  --location eastus
+
+# 2. Create a Data Factory
+az datafactory create \
+  --resource-group MyNewResourceGroup \
+  --factory-name sales-adf-instance \
+  --location eastus
+
+# 3. Download the ARM Template Parameters
+curl -O https://raw.githubusercontent.com/ahmadaahmad/azure-data-modernization/adf_publish/sales-adf-instance/ARMTemplateParametersForFactory.json
+
+# 4. Deploy ADF Pipelines and Datasets
+az deployment group create \
+  --resource-group MyNewResourceGroup \
+  --template-uri https://raw.githubusercontent.com/ahmadaahmad/azure-data-modernization/adf_publish/sales-adf-instance/ARMTemplateForFactory.json \
+  --parameters @ARMTemplateParametersForFactory.json
+
+# 5. Create Blob Storage and Container
+az storage account create \
+  --name blobsales \
+  --resource-group MyNewResourceGroup \
+  --location eastus \
+  --sku Standard_LRS
+
+az storage container create \
+  --name salesdatacontainer \
+  --account-name salesblobstorage
+
+# 6. Upload the CSV Source File
+# Upload the CSV file from this repository to the `blobsalescontainer` container in the `blobsales` storage account.
+# This is the input data that the ADF pipelines will process.

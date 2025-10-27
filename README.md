@@ -1,7 +1,7 @@
 
 ## **⚙️ Pipeline Description**
 1. **Source Dataset**  
-   - Reads a CSV file from **Blob Storage** (e.g., `rawdata/SalesData.csv`).  
+   - Reads a CSV file from **Blob Storage** 
    - Connection defined via **Linked Service** to your blob container.  
 
 2. **Mapping Data Flow**  

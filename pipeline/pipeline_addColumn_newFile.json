@@ -23,7 +23,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow_addColumn1",
+						"referenceName": "dataflow_addColumn",
 						"type": "DataFlowReference",
 						"parameters": {
 							"srcFileName": {

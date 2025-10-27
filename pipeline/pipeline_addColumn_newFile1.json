@@ -1,5 +1,5 @@
 {
-	"name": "pipeline_addColumn_newFile",
+	"name": "pipeline_addColumn_newFile1",
 	"properties": {
 		"activities": [
 			{
@@ -53,7 +53,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "DelimitedText",
+						"referenceName": "csvfilepath",
 						"type": "DatasetReference"
 					},
 					"fieldList": [

@@ -23,7 +23,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "dataflow_addColumn",
+						"referenceName": "dataflow_addColumn1",
 						"type": "DataFlowReference",
 						"parameters": {
 							"srcFileName": {
@@ -71,7 +71,7 @@
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2025-10-24T19:48:01Z"
+		"lastPublishTime": "2025-10-27T15:17:54Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }

@@ -41,8 +41,6 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Get Metadata Days List",
@@ -53,6 +51,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata Days List').output.childItems",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Debug show day",

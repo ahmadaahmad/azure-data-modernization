@@ -73,6 +73,39 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Debug show month",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pipeline_child_list_days_copytosql",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Month": {
+										"value": "@item().name",
+										"type": "Expression"
+									},
+									"Year": {
+										"value": "@pipeline().parameters.Year",
+										"type": "Expression"
+									}
+								}
+							}
 						}
 					]
 				}

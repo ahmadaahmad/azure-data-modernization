@@ -106,7 +106,8 @@
 		],
 		"parameters": {
 			"YearPar": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "@item().name"
 			}
 		},
 		"variables": {

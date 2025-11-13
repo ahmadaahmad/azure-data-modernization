@@ -73,6 +73,10 @@
 									"Month": {
 										"value": "@item().name",
 										"type": "Expression"
+									},
+									"Year": {
+										"value": "@pipeline().parameters.Year",
+										"type": "Expression"
 									}
 								}
 							}

@@ -78,6 +78,8 @@
 						"value": "@activity('Filter1').output.Value",
 						"type": "Expression"
 					},
+					"isSequential": false,
+					"batchCount": 50,
 					"activities": [
 						{
 							"name": "Debug Year",

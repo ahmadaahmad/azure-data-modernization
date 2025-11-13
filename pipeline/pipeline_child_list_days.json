@@ -136,7 +136,7 @@
 										],
 										"type": "Query",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\nFROM @{concat('abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/', '@{folderPath}')}\nWITH\n(\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    MAXERRORS = 0,\n    AUTO_CREATE_TABLE = OFF\n);",
+											"value": "COPY INTO dbo.CustomerData\nFROM @{concat('abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/', '@{dirPath}')}\nWITH\n(\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    MAXERRORS = 0,\n    AUTO_CREATE_TABLE = OFF\n);",
 											"type": "Expression"
 										}
 									}

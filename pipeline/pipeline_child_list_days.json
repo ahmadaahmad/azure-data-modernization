@@ -145,7 +145,7 @@
 										],
 										"type": "NonQuery",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\nFROM ?\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
+											"value": "COPY INTO dbo.CustomerData\nFROM $ScriptPar\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
 											"type": "Expression"
 										}
 									}

@@ -30,6 +30,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -54,44 +55,12 @@
 						"value": "@activity('Get Metadata Months List').output.childItems",
 						"type": "Expression"
 					},
+					"isSequential": false,
 					"activities": [
-						{
-							"name": "Execute Pipeline1",
-							"type": "ExecutePipeline",
-							"dependsOn": [],
-							"policy": {
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"pipeline": {
-									"referenceName": "pipeline_child_list_days_copytosql",
-									"type": "PipelineReference"
-								},
-								"waitOnCompletion": true,
-								"parameters": {
-									"Month": {
-										"value": "@item().name",
-										"type": "Expression"
-									},
-									"Year": {
-										"value": "@pipeline().parameters.Year",
-										"type": "Expression"
-									}
-								}
-							}
-						},
 						{
 							"name": "Debug show month",
 							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline1",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"secureOutput": false,
 								"secureInput": false

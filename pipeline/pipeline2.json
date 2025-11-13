@@ -35,20 +35,6 @@
 				}
 			},
 			{
-				"name": "Set variable - partition paths array",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "partitionsArray",
-					"value": []
-				}
-			},
-			{
 				"name": "ForEach_Year",
 				"type": "ForEach",
 				"dependsOn": [
@@ -106,7 +92,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"folderPath": {
-											"value": "concat('synthetic_customers_partitioned_date/', variables('varYear'), '/')",
+											"value": "@concat('synthetic_customers_partitioned_date/', variables('varYear'), '/')",
 											"type": "Expression"
 										}
 									}

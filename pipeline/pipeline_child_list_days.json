@@ -135,7 +135,10 @@
 											}
 										],
 										"type": "Query",
-										"text": "COPY INTO dbo.CustomerData\nFROM '@{concat('abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/', dirPath)}'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    AUTO_CREATE_TABLE = ON\n);"
+										"text": {
+											"value": "COPY INTO dbo.CustomerData\nFROM '@{concat('abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/', '@{dirPath}')}'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    AUTO_CREATE_TABLE = ON\n);",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"

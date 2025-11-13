@@ -1,0 +1,65 @@
+{
+	"name": "pipeline_child_list_days",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "varMonth",
+					"value": {
+						"value": "@pipeline().parameters.Month",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable1_copy1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "varYear",
+					"value": {
+						"value": "@pipeline().parameters.Year",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"Year": {
+				"type": "string"
+			},
+			"Month": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"varMonth": {
+				"type": "String"
+			},
+			"varYear": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}

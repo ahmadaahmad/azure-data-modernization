@@ -105,6 +105,7 @@
 						"value": "@activity('Get Metadata1').output.childItems",
 						"type": "Expression"
 					},
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "Script1",
@@ -145,7 +146,7 @@
 										],
 										"type": "NonQuery",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\nFROM $ScriptPar\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
+											"value": "COPY INTO dbo.CustomerData\nFROM @{variables('varDynPath')}\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
 											"type": "Expression"
 										}
 									}
@@ -165,7 +166,7 @@
 							"typeProperties": {
 								"variableName": "varDynPath",
 								"value": {
-									"value": "@concat('https://salesdatalakedemo.blob.core.windows.net/salescontainer/synthetic_customers_partitioned_date/',pipeline().parameters.Year,'/',pipeline().parameters.Month,'/',item().name,'/')",
+									"value": "@concat('''https://salesdatalakedemo.dfs.core.windows.net/salescontainer/synthetic_customers_partitioned_date/',pipeline().parameters.Year,'/',pipeline().parameters.Month,'/',item().name,'/''')",
 									"type": "Expression"
 								}
 							}

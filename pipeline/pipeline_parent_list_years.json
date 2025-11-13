@@ -38,7 +38,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "ForEachYear",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -50,9 +50,13 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata Years List').output.childItems",
+						"type": "Expression"
+					},
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "Execute Pipeline - Months",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"policy": {
@@ -71,6 +75,30 @@
 									}
 								}
 							}
+						},
+						{
+							"name": "Debug show year",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Execute Pipeline - Months",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varYear",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -79,6 +107,11 @@
 		"parameters": {
 			"YearPar": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"varYear": {
+				"type": "String"
 			}
 		},
 		"annotations": []

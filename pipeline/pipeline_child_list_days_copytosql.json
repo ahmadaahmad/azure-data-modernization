@@ -1,6 +1,11 @@
 {
 	"name": "pipeline_child_list_days_copytosql",
 	"properties": {
+		"parameters": {
+			"Month": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }

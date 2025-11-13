@@ -92,17 +92,17 @@
 							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
-									"referenceName": "pipeline_child_list_days_copytosql",
+									"referenceName": "pipeline_child_list_days",
 									"type": "PipelineReference"
 								},
 								"waitOnCompletion": true,
 								"parameters": {
-									"Month": {
-										"value": "@item().name",
-										"type": "Expression"
-									},
 									"Year": {
 										"value": "@pipeline().parameters.Year",
+										"type": "Expression"
+									},
+									"Month": {
+										"value": "@item().name",
 										"type": "Expression"
 									}
 								}

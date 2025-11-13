@@ -73,6 +73,42 @@
 									"type": "Expression"
 								}
 							}
+						},
+						{
+							"name": "Script1",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Debug show day",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "AzureSynapseAnalytics1",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "COPY INTO dbo.CustomerData\nFROM 'https://salescontainer.dfs.core.windows.net/salescontainer/@{pipeline().parameters.year}/@{pipeline().parameters.month}/@{item().name}/'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL=(IDENTITY= 'Managed Identity'),\n    MAXERRORS = 0\n);",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
 						}
 					]
 				}

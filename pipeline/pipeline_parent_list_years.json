@@ -30,6 +30,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -38,8 +39,8 @@
 				}
 			},
 			{
-				"name": "ForEachYear",
-				"type": "ForEach",
+				"name": "Filter1",
+				"type": "Filter",
 				"dependsOn": [
 					{
 						"activity": "Get Metadata Years List",
@@ -54,14 +55,62 @@
 						"value": "@activity('Get Metadata Years List').output.childItems",
 						"type": "Expression"
 					},
+					"condition": {
+						"value": "@equals(item().type, 'Folder')",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Filter1').output.Value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
-							"name": "Execute Pipeline - Months",
-							"type": "ExecutePipeline",
+							"name": "Debug Year",
+							"type": "SetVariable",
 							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varYear",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [
+								{
+									"activity": "Debug Year",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"secureInput": false
 							},
+							"userProperties": [],
 							"typeProperties": {
 								"pipeline": {
 									"referenceName": "pipeline_child_list_months",
@@ -75,41 +124,11 @@
 									}
 								}
 							}
-						},
-						{
-							"name": "Debug show year",
-							"type": "SetVariable",
-							"dependsOn": [
-								{
-									"activity": "Execute Pipeline - Months",
-									"dependencyConditions": [
-										"Succeeded"
-									]
-								}
-							],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "varYear",
-								"value": {
-									"value": "@item().name",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
 			}
 		],
-		"parameters": {
-			"YearPar": {
-				"type": "string",
-				"defaultValue": "@item().name"
-			}
-		},
 		"variables": {
 			"varYear": {
 				"type": "String"

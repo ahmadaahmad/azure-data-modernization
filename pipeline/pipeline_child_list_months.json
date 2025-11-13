@@ -20,7 +20,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"folderPath": {
-								"value": "@concat('synthetic_customers_bydate/',pipeline().parameters.Year,'/')",
+								"value": "@concat('synthetic_customers_partitioned_date/',pipeline().parameters.Year,'/')",
 								"type": "Expression"
 							}
 						}

@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Get Metadata1",
+				"name": "GetMetadata_YearFolders",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -13,7 +13,26 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "partitioned_by_date",
+						"type": "DatasetReference",
+						"parameters": {
+							"folderPath": "synthetic_customers_partitioned_date"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "ParquetReadSettings"
+					}
+				}
 			},
 			{
 				"name": "Set variable - partition paths array",
@@ -28,6 +47,12 @@
 					"variableName": "partitionsArray",
 					"value": []
 				}
+			},
+			{
+				"name": "ForEach_Year",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": []
 			}
 		],
 		"variables": {

@@ -16,7 +16,7 @@
 				"userProperties": []
 			},
 			{
-				"name": "Set variable1",
+				"name": "Set variable - partition paths array",
 				"type": "SetVariable",
 				"dependsOn": [],
 				"policy": {

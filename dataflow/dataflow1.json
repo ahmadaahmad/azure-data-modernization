@@ -1,0 +1,37 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "partitioned_by_date_copy1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as long,",
+				"          Age as integer,",
+				"          Salary as integer,",
+				"          Balance as double,",
+				"          MaritalStatus as string,",
+				"          GeoLocation as string,",
+				"          CreatedOn as date,",
+				"          year as string,",
+				"          month as string,",
+				"          day as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1"
+			]
+		}
+	}
+}

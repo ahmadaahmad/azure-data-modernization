@@ -5,6 +5,8 @@
 			{
 				"name": "Set variable1",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Get Metadata1",
@@ -29,6 +31,8 @@
 			{
 				"name": "Set variable1_copy1",
 				"type": "SetVariable",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -136,7 +140,7 @@
 										],
 										"type": "Query",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\nFROM '@{concat('abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/', '@{dirPath}')}'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    AUTO_CREATE_TABLE = ON\n);",
+											"value": "COPY INTO syn_dedicated_benchmark.dbo.CustomerData11\nFROM 'https://salesdatalakedemo.blob.core.windows.net/salescontainer/synthetic_customers_partitioned_date/year=2024/month=11/day=13/'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    AUTO_CREATE_TABLE = 'ON'\n);",
 											"type": "Expression"
 										}
 									}
@@ -150,10 +154,12 @@
 		],
 		"parameters": {
 			"Year": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "year=2023"
 			},
 			"Month": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "month=4"
 			}
 		},
 		"variables": {

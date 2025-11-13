@@ -78,6 +78,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -123,7 +124,10 @@
 								"scripts": [
 									{
 										"type": "Query",
-										"text": "COPY INTO dbo.CustomerData\n(\n    CustomerID,\n    Age,\n    Salary,\n    Balance,\n    MaritalStatus,\n    GeoLocation,\n    CreatedOn,\n    FilePath DEFAULT _file_path\n)\nFROM 'abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/@{item()}'\nWITH\n(\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    MAXERRORS = 0,\n    AUTO_CREATE_TABLE = OFF\n);"
+										"text": {
+											"value": "COPY INTO dbo.CustomerData\nFROM 'abfss://salescontainer@salesdatalakedemo.dfs.core.windows.net/synthetic_customers_partitioned_date/@{item()}'\nWITH\n(\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    MAXERRORS = 0,\n    AUTO_CREATE_TABLE = OFF\n);",
+											"type": "Expression"
+										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"

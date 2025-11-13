@@ -109,6 +109,40 @@
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
 							}
+						},
+						{
+							"name": "Debug show month",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varMonth",
+								"value": {
+									"value": "@pipeline().parameters.Month",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Debug show year",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varYear",
+								"value": {
+									"value": "@pipeline().parameters.Year",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -124,6 +158,12 @@
 		},
 		"variables": {
 			"varDay": {
+				"type": "String"
+			},
+			"varMonth": {
+				"type": "String"
+			},
+			"varYear": {
 				"type": "String"
 			}
 		},

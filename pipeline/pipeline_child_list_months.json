@@ -38,7 +38,7 @@
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "ForEachMonth",
 				"type": "ForEach",
 				"dependsOn": [
 					{
@@ -50,6 +50,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata Months List').output.childItems",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Execute Pipeline1",
@@ -72,6 +76,30 @@
 									}
 								}
 							}
+						},
+						{
+							"name": "Debug show month",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Execute Pipeline1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varMonth",
+								"value": {
+									"value": "@item().name",
+									"type": "Expression"
+								}
+							}
 						}
 					]
 				}
@@ -80,6 +108,11 @@
 		"parameters": {
 			"Year": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"varMonth": {
+				"type": "String"
 			}
 		},
 		"annotations": []

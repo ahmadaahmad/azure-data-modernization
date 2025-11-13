@@ -29,10 +29,8 @@
 				}
 			},
 			{
-				"name": "Set variable1_copy1",
+				"name": "Assign file path",
 				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Set variable1",
@@ -47,9 +45,9 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "varYear",
+					"variableName": "vardirPath",
 					"value": {
-						"value": "@pipeline().parameters.Year",
+						"value": "@concat('https://salesdatalakedemo.blob.core.windows.net/salescontainer/synthetic_customers_partitioned_date/',pipeline().parameters.Year,'/',pipeline().parameters.Month,'/',activity('Get Metadata1').output.childItems,'/')",
 						"type": "Expression"
 					}
 				}
@@ -95,7 +93,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Set variable1_copy1",
+						"activity": "Assign file path",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -111,7 +109,14 @@
 						{
 							"name": "Script1",
 							"type": "Script",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Set variable2",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -127,25 +132,31 @@
 							"typeProperties": {
 								"scripts": [
 									{
-										"parameters": [
-											{
-												"name": "dirPath",
-												"type": "String",
-												"value": {
-													"value": "@concat(pipeline().parameters.Year,'/',pipeline().parameters.Month,'/',item().name,'/')",
-													"type": "Expression"
-												},
-												"direction": "Input"
-											}
-										],
-										"type": "Query",
+										"type": "NonQuery",
 										"text": {
-											"value": "COPY INTO syn_dedicated_benchmark.dbo.CustomerData11\nFROM 'https://salesdatalakedemo.blob.core.windows.net/salescontainer/synthetic_customers_partitioned_date/year=2024/month=11/day=13/'\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity'),\n    AUTO_CREATE_TABLE = 'ON'\n);",
+											"value": "COPY INTO dbo.CustomerData\nFROM pipeline().variables.varDynPath\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
 											"type": "Expression"
 										}
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "varDynPath",
+								"value": {
+									"value": "@concat('https://salesdatalakedemo.blob.core.windows.net/\nsalescontainer/synthetic_customers_partitioned_date/',pipeline().parameters.Year,'/',pipeline().parameters.Month,'/',item().name,'/')",
+									"type": "Expression"
+								}
 							}
 						}
 					]
@@ -163,10 +174,10 @@
 			}
 		},
 		"variables": {
-			"varMonth": {
+			"vardirPath": {
 				"type": "String"
 			},
-			"varYear": {
+			"varDynPath": {
 				"type": "String"
 			}
 		},

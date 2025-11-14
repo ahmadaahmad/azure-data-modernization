@@ -3,37 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [
-					{
-						"activity": "Get Metadata1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "varMonth",
-					"value": {
-						"value": "@pipeline().parameters.Month",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "Assign file path",
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Get Metadata1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -91,6 +65,8 @@
 			{
 				"name": "ForEach1",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Assign file path",
@@ -133,19 +109,9 @@
 							"typeProperties": {
 								"scripts": [
 									{
-										"parameters": [
-											{
-												"name": "leafFolder",
-												"type": "String",
-												"value": {
-													"value": "@activity('Get Metadata1').output.itemName",
-													"type": "Expression"
-												}
-											}
-										],
 										"type": "NonQuery",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\n(\nCustomerID\n, Age\n, Salary\n, Balance\n, MaritalStatus\n, GeoLocation\n, CreatedOn\n, @{variables('varDynPath')}\n)\nFROM @{variables('varDynPath')}\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
+											"value": "COPY INTO dbo.CustomerData\nFROM @{variables('varDynPath')}\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
 											"type": "Expression"
 										}
 									}

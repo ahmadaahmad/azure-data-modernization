@@ -135,18 +135,17 @@
 									{
 										"parameters": [
 											{
-												"name": "ScriptPar",
+												"name": "leafFolder",
 												"type": "String",
 												"value": {
-													"value": "@variables('varDynPath')",
+													"value": "@activity('Get Metadata1').output.itemName",
 													"type": "Expression"
-												},
-												"direction": "Input"
+												}
 											}
 										],
 										"type": "NonQuery",
 										"text": {
-											"value": "COPY INTO dbo.CustomerData\nFROM @{variables('varDynPath')}\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
+											"value": "COPY INTO dbo.CustomerData\n(\nCustomerID\n, Age\n, Salary\n, Balance\n, MaritalStatus\n, GeoLocation\n, CreatedOn\n, @{variables('varDynPath')}\n)\nFROM @{variables('varDynPath')}\nWITH (\n    FILE_TYPE = 'PARQUET',\n    CREDENTIAL = (IDENTITY = 'Managed Identity')\n);",
 											"type": "Expression"
 										}
 									}

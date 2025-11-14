@@ -112,6 +112,7 @@
 				}
 			}
 		],
+		"concurrency": 10,
 		"parameters": {
 			"Year": {
 				"type": "string"

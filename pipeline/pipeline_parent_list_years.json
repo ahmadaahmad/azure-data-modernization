@@ -131,6 +131,7 @@
 				}
 			}
 		],
+		"concurrency": 10,
 		"variables": {
 			"varYear": {
 				"type": "String"
